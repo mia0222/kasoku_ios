@@ -13,28 +13,23 @@
   </div>
 
   <script>
-    function getAcceleration() {
-      const accelerometer = window.navigator.accelerometer;
-      if (!accelerometer) {
-        return;
-      }
+    const accelerometer = window.navigator.accelerometer;
 
-      accelerometer.addEventListener("change", () => {
-        const x = accelerometer.x.toFixed(2);
-        const y = accelerometer.y.toFixed(2);
-        const z = accelerometer.z.toFixed(2);
+    if (accelerometer) {
+      accelerometer.requestPermission().then((status) => {
+        if (status === "granted") {
+          accelerometer.addEventListener("change", () => {
+            const x = accelerometer.x.toFixed(2);
+            const y = accelerometer.y.toFixed(2);
+            const z = accelerometer.z.toFixed(2);
 
-        document.getElementById("x-axis").innerHTML = x;
-        document.getElementById("y-axis").innerHTML = y;
-        document.getElementById("z-axis").innerHTML = z;
+            document.getElementById("x-axis").innerHTML = x;
+            document.getElementById("y-axis").innerHTML = y;
+            document.getElementById("z-axis").innerHTML = z;
+          });
+        }
       });
     }
-
-    getAcceleration();
-
-    setInterval(() => {
-      getAcceleration();
-    }, 1000);
   </script>
 </body>
 </html>
