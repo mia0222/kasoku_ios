@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>加速度センサ情報</title>
+  <meta charset="UTF-8">
+  <title>加速度センサ情報</title>
 </head>
-
 <body>
-<div id="acceleration-data">
-  <p>x: <span id="acceleration-x">0</span></p>
-  <p>y: <span id="acceleration-y">0</span></p>
-  <p>z: <span id="acceleration-z">0</span></p>
-</div>
+  <h1>加速度センサ情報</h1>
+  <div id="accelerometer">
+    <p>x軸：<span id="x-axis"></span></p>
+    <p>y軸：<span id="y-axis"></span></p>
+    <p>z軸：<span id="z-axis"></span></p>
+  </div>
 
-<script>
-// 加速度センサの値を格納する変数
-var aX = 0, aY = 0, aZ = 0;
+  <script>
+    function getAcceleration() {
+      const accelerometer = window.navigator.accelerometer;
+      if (!accelerometer) {
+        return;
+      }
 
-// 加速度センサのデータを取得するためのイベントリスナー
-window.addEventListener("devicemotion", function(event) {
-  aX = event.accelerationIncludingGravity.x;
-  aY = event.accelerationIncludingGravity.y;
-  aZ = event.accelerationIncludingGravity.z;
+      accelerometer.addEventListener("change", () => {
+        const x = accelerometer.x.toFixed(2);
+        const y = accelerometer.y.toFixed(2);
+        const z = accelerometer.z.toFixed(2);
 
-  // データを表示する
-  displayData();
-});
+        document.getElementById("x-axis").innerHTML = x;
+        document.getElementById("y-axis").innerHTML = y;
+        document.getElementById("z-axis").innerHTML = z;
+      });
+    }
 
-// データを表示する関数
-function displayData() {
-  document.getElementById("acceleration-x").textContent = aX;
-  document.getElementById("acceleration-y").textContent = aY;
-  document.getElementById("acceleration-z").textContent = aZ;
-}
+    getAcceleration();
 
-  setInterval(displayData, 1000);
-
-</script>
+    setInterval(() => {
+      getAcceleration();
+    }, 1000);
+  </script>
 </body>
 </html>
