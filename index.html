@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>加速度センサ情報</title>
+</head>
+
+<body>
+<div id="acceleration-data">
+  <p>x: <span id="acceleration-x">0</span></p>
+  <p>y: <span id="acceleration-y">0</span></p>
+  <p>z: <span id="acceleration-z">0</span></p>
+</div>
+
+<script>
+// 加速度センサの値を格納する変数
+var aX = 0, aY = 0, aZ = 0;
+
+// 加速度センサのデータを取得するためのイベントリスナー
+window.addEventListener("devicemotion", function(event) {
+  aX = event.accelerationIncludingGravity.x;
+  aY = event.accelerationIncludingGravity.y;
+  aZ = event.accelerationIncludingGravity.z;
+
+  // データを表示する
+  displayData();
+});
+
+// データを表示する関数
+function displayData() {
+  document.getElementById("acceleration-x").textContent = aX;
+  document.getElementById("acceleration-y").textContent = aY;
+  document.getElementById("acceleration-z").textContent = aZ;
+}
+
+  setInterval(displayData, 1000);
+
+</script>
+</body>
+</html>
